@@ -115,75 +115,73 @@
     // somehow, a z-index of 9999999999 is necessary on some sites
     // not all browser prefixes are present; I usually use a mini sass library to add prefixes, and for conciseness, I only added a few here.
     // TODO: add better styles to headings, etc. to protect against inherited styles
-    var styles = "
-      .higley-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        max-width: 85%;
-        max-height: 85%;
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        padding: 30px;
-        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
-        border-radius: 10px;
-        background-color: #fff;
-        z-index: 9999999999;
-        overflow: scroll;
-      }
-      .higley-modal h1 {
-        padding-right: 40px;
-        margin: 0 0 10px;
-        font-size: 36px;
-        text-transform: uppercase;
-      }
-      .higley-modal li {
-        display: inline-block;
-        padding: 0 4px;
-        color: #103f5e;
-      }
-      .higley-close {
-        display: block;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        text-indent: -999px;
-        text-decoration: none;
-        border: none;
-        overflow: hidden;
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-      }
-      .higley-close:before, .higley-close:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 18px;
-        left: 0;
-        width: 40px;
-        height: 4px;
-        -webkit-transform: rotate(45deg);
-        -moz-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-        background-color: #103f5e;
-      }
-      .higley-close:after {
-        -webkit-transform: rotate(-45deg);
-        -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        transform: rotate(-45deg);
-      }
-      .higley-close:hover, .higley-close:focus {
-        transform: scale(1.2);
-      }
-    ";
+    var styles = '.higley-modal { \
+        position: fixed; \
+        top: 50%; \
+        left: 50%; \
+        max-width: 85%; \
+        max-height: 85%; \
+        -webkit-transform: translate(-50%, -50%); \
+        -moz-transform: translate(-50%, -50%); \
+        -ms-transform: translate(-50%, -50%); \
+        transform: translate(-50%, -50%); \
+        padding: 30px; \
+        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5); \
+        border-radius: 10px; \
+        background-color: #fff; \
+        z-index: 9999999999; \
+        overflow: scroll; \
+      } \
+      .higley-modal h1 { \
+        padding-right: 40px; \
+        margin: 0 0 10px; \
+        font-size: 36px; \
+        text-transform: uppercase; \
+      } \
+      .higley-modal li { \
+        display: inline-block; \
+        padding: 0 4px; \
+        color: #103f5e; \
+      } \
+      .higley-close { \
+        display: block; \
+        position: absolute; \
+        top: 20px; \
+        right: 20px; \
+        width: 40px; \
+        height: 40px; \
+        text-indent: -999px; \
+        text-decoration: none; \
+        border: none; \
+        overflow: hidden; \
+        -webkit-transition: all 0.3s ease; \
+        -moz-transition: all 0.3s ease; \
+        -ms-transition: all 0.3s ease; \
+        transition: all 0.3s ease; \
+      } \
+      .higley-close:before, .higley-close:after { \
+        content: ""; \
+        display: block; \
+        position: absolute; \
+        top: 18px; \
+        left: 0; \
+        width: 40px; \
+        height: 4px; \
+        -webkit-transform: rotate(45deg); \
+        -moz-transform: rotate(45deg); \
+        -ms-transform: rotate(45deg); \
+        transform: rotate(45deg); \
+        background-color: #103f5e; \
+      } \
+      .higley-close:after { \
+        -webkit-transform: rotate(-45deg); \
+        -moz-transform: rotate(-45deg); \
+        -ms-transform: rotate(-45deg); \
+        transform: rotate(-45deg); \
+      } \
+      .higley-close:hover, .higley-close:focus { \
+        transform: scale(1.2); \
+      }';
     var stylesheet = document.createElement('style');
     stylesheet.type = 'text/css';
     stylesheet.innerHTML = styles;
