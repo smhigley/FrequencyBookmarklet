@@ -84,6 +84,7 @@
     // as stated above, we'll use text sizes from 10px to 36px
     // add a text opacity style from 0.5 to 1
     // frequency range is 1 - max
+    // TODO: try using logarithmic mapping instead of linear
     return {
       size: (frequency - 1) * (36 - 10)/(max - 1) + 10,
       opacity: (frequency - 1) * (1 - 0.5)/(max - 1) + 0.5
@@ -93,6 +94,7 @@
   function createModal(words, maxFrequency) {
     // Create a modal overlay to display word cloud
     // use namespaced classes
+    // TODO: Create modal overlay, or catch outside clicks to close modal
     var modal = document.createElement('div');
     modal.classList.add('higley-modal');
     modal.innerHTML = '<h1>Word Cloud for this page:</h1>';
@@ -112,6 +114,7 @@
     // add some styles
     // somehow, a z-index of 9999999999 is necessary on some sites
     // not all browser prefixes are present; I usually use a mini sass library to add prefixes, and for conciseness, I only added a few here.
+    // TODO: add better styles to headings, etc. to protect against inherited styles
     var styles = "
       .higley-modal {
         position: fixed;
