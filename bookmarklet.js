@@ -110,6 +110,7 @@
     }
 
     // add some styles
+    // somehow, a z-index of 9999999999 is necessary on some sites
     var styles = '
       .higley-modal {
         position: fixed;
@@ -122,7 +123,7 @@
         box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         background-color: #fff;
-        z-index: 9999;
+        z-index: 9999999999;
         overflow: scroll;
       }
       .higley-modal h1 {
@@ -167,11 +168,19 @@
     stylesheet.type = 'text/css';
     stylesheet.innerHTML = styles;
     document.getElementsByTagName("head")[0].appendChild(stylesheet);
+
+    // append modal
     document.body.appendChild(modal);
+
+    // add event listener to close link
+    var closeButton = modal.querySelector('.higley-close');
+    closeButton.onclick = function(e) {
+      e.preventDefault();
+      document.body.removeChild(modal);
+    }
   }
 
   var wordData = tolkenizeText(textWalker);
-  console.log(wordData);
   createModal(wordData.words, wordData.maxFrequency);
 
 })();
