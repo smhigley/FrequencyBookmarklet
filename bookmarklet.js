@@ -5,7 +5,7 @@
   // ASSUMPTIONS:
   //  1. capitalization doesn't matter for words matching
   //  2. We display all words in lowercase at the end
-  //  3. I'm mapping word frequencies to text sizes from 8px to 26px;
+  //  3. I'm mapping word frequencies to text sizes from 10px to 36px;
 
   var walkerFilter = function(node) {
     // use parentElement since we'll be getting text nodes
@@ -49,7 +49,7 @@
 
         //iterate through existing words and check for matches
         for(w = 0; w < words.length; w++) {
-          matchRE = new RegExp(words[w], 'gi');
+          matchRE = new RegExp(words[w][0], 'gi');
           if (matchRE.test(tmpWords[i])) {
             // increment word frequency by one, set wordExists to true, and exit loop
             words[w][1] += 1;
@@ -67,54 +67,111 @@
       }
     }
 
+    // sort words alphabetically by first value
+    words.sort(function(a, b){
+      if(a[0] < b[0]) return -1;
+      if(a[0] > b[0]) return 1;
+      return 0;
+    });
+
     return {
       words: words,
       maxFrequency: maxFrequency
     };
   }
 
-  function getTextSize(frequency, max) {
-    // as stated above, we'll use text sizes from 8px to 26px
+  function getTextStyles(frequency, max) {
+    // as stated above, we'll use text sizes from 10px to 36px
+    // add a text opacity style from 0.5 to 1
+    // frequency range is 1 - max
+    return {
+      size: (frequency - 1) * (36 - 10)/(max - 1) + 10,
+      opacity: (frequency - 1) * (1 - 0.5)/(max - 1) + 0.5
+    };
   }
 
-  // Create a modal overlay to display word cloud
-  // use namespaced classes
-  var modal = document.createElement('div');
-  modal.classList.add('higley-modal');
-  modal.innerHTML = '<h1>Word Cloud for this page:</h1>';
-  modal.innerHTML += '<a href="#" class="higley-close">Close Modal</a>';
-  modal.innerHTML += '<ul>';
+  function createModal(words, maxFrequency) {
+    // Create a modal overlay to display word cloud
+    // use namespaced classes
+    var modal = document.createElement('div');
+    modal.classList.add('higley-modal');
+    modal.innerHTML = '<h1>Word Cloud for this page:</h1>';
+    modal.innerHTML += '<a href="#" class="higley-close">Close Modal</a>';
+    modal.innerHTML += '<ul>';
 
-  // now
+    // now iterate through words and add <li>'s for each with the correct text size
+    var textSize;
+    for(var i = 0; i < words.length; i++) {
+      textStyle = getTextStyles(words[i][1], maxFrequency);
+      modal.innerHTML += '<li style="font-size:' + textStyle.size + 'px;opacity:' + textStyle.opacity + '">' + words[i][0] + '</li>';
+      if (i == words.length - 1) {
+        modal.innerHTML += '</ul>';
+      }
+    }
 
-  // add some styles
-  var styles = '
-    .higley-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 30px;
-      box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      background-color: #fff;
-      z-index: 99;
-    }
-    .higley-modal h1 {
-      margin-bottom: 10px;
-      font-size: 36px;
-      text-transform: uppercase;
-    }
-    .higley-modal li {
-      margin-bottom: 4px;
-      font-size: 16px;
-    }
-  ';
-  var stylesheet = document.createElement('style');
-  stylesheet.type = 'text/css';
-  stylesheet.innerHTML = styles;
-  document.getElementsByTagName("head")[0].appendChild(stylesheet);
+    // add some styles
+    var styles = '
+      .higley-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        max-width: 85%;
+        max-height: 85%;
+        transform: translate(-50%, -50%);
+        padding: 30px;
+        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        background-color: #fff;
+        z-index: 9999;
+        overflow: scroll;
+      }
+      .higley-modal h1 {
+        padding-right: 40px;
+        margin: 0 0 10px;
+        font-size: 36px;
+        text-transform: uppercase;
+      }
+      .higley-modal li {
+        display: inline-block;
+        padding: 0 4px;
+        color: #103f5e;
+      }
+      .higley-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        text-indent: -999px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .higley-close:before, .higley-close:after {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: 0;
+        width: 40px;
+        height: 4px;
+        transform: rotate(45deg);
+        background-color: #103f5e;
+      }
+      .higley-close:after {
+        transform: rotate(-45deg);
+      }
+      .higley-close:hover, .higley-close:focus {
+        transform: scale(1.2);
+      }
+    ';
+    var stylesheet = document.createElement('style');
+    stylesheet.type = 'text/css';
+    stylesheet.innerHTML = styles;
+    document.getElementsByTagName("head")[0].appendChild(stylesheet);
+    document.body.appendChild(modal);
+  }
 
   var wordData = tolkenizeText(textWalker);
+  console.log(wordData);
+  createModal(wordData.words, wordData.maxFrequency);
 
 })();
